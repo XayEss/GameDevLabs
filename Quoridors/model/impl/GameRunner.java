@@ -2,6 +2,7 @@ package com.quoridors.Quoridors.model.impl;
 
 import java.util.Objects;
 
+import com.quoridors.Quoridors.gui.impl.GUI;
 import com.quoridors.Quoridors.gui.GUIInterface;
 import com.quoridors.Quoridors.gui.impl.ConsoleOutput;
 import com.quoridors.Quoridors.model.GameMap;
@@ -14,6 +15,7 @@ public class GameRunner {
 	private GUIInterface output;
 	private GameEntity player;
 
+
 	
 	public GameRunner(PlayerI player1, PlayerI player2, GameMap map) {
 		super();
@@ -22,7 +24,7 @@ public class GameRunner {
 		this.map = map;
 		setPlayersPosition();
 		player = GameEntity.Player;
-		output = new ConsoleOutput();
+		output = new GUI();
 		output.drawBoard(map.getMap());
 	}
 	
