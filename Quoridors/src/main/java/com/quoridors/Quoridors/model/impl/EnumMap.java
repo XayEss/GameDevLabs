@@ -116,7 +116,7 @@ public class EnumMap implements GameMap {
 			testMap[x][y] = GameEntity.Wall;
 			testMap[x][y + 1] = GameEntity.Wall;
 			testMap[x][y + 2] = GameEntity.Wall;
-			if (true) {
+			if (pathFinder.allowWallPlacement(testMap)) {
 				map = testMap;
 				return true;
 			}
@@ -132,7 +132,7 @@ public class EnumMap implements GameMap {
 			testMap[x][y] = GameEntity.Wall;
 			testMap[x + 1][y] = GameEntity.Wall;
 			testMap[x + 2][y] = GameEntity.Wall;
-			if (true) {
+			if (pathFinder.allowWallPlacement(testMap)) {
 				map = testMap;
 				return true;
 			}
@@ -296,26 +296,7 @@ public class EnumMap implements GameMap {
 		return false;
 	}
 
-	public boolean allowWallPlacement(GameEntity[][] map) {
-		int[][] intMap = new int[map.length][map[0].length];
-		for (int i = 0; i < intMap.length; i++) {
-			for (int j = 0; j < intMap[0].length; j++) {
-				intMap[i][j] = 0;
-//				GameEntity entity = map[i][j];
-//				int put = 0;
-//				switch (entity) {
-//				case Wall:
-//					put = -1;
-//					break;
-//				}
-//				intMap[i][j] = put;
-			}
-		}
-
-		return true;
-
-	}
-
+	
 	public boolean pathCondition() {
 		return false;
 	}
