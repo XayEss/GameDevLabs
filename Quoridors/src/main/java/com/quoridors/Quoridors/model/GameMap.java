@@ -1,11 +1,12 @@
 package com.quoridors.Quoridors.model;
 
 import com.quoridors.Quoridors.model.impl.GameEntity;
+import com.quoridors.Quoridors.model.impl.PathFinder;
 import com.quoridors.Quoridors.model.impl.Point;
 
 public interface GameMap {
 	
-public void createMap(int size);
+public void createMap();
 	boolean placeHorizontalWall(int x, int y);
 	boolean placeVerticalWall(int x, int y);
 	Point movePlayer(GameEntity ge, int x, int y, int futureX, int futureY);
@@ -18,4 +19,7 @@ public void createMap(int size);
 	Point getVector(Point point);
 	boolean placeWall(int x, int y);
 	GameEntity findEntityBetween(GameEntity[][] map, int x, int y, int futureX, int futureY);
+	PathFinder getPathFinder();
+	void releaseMovement();
+	void waitForMovement();
 }

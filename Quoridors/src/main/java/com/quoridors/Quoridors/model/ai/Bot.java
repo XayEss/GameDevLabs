@@ -2,6 +2,7 @@ package com.quoridors.Quoridors.model.ai;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import com.quoridors.Quoridors.model.impl.GameRunner;
@@ -13,11 +14,12 @@ public class Bot {
 	private LinkedList<Point> path;
 	private LinkedList<Point> opponentPath;
 	private GameRunner gameRunner;
+	private Random rand;
 
 	public Bot(PathFinder finder, GameRunner gameRunner) {
 		this.finder = finder;
 		this.gameRunner = gameRunner;
-
+		rand = new Random();
 	}
 
 	private void getPaths() {
@@ -27,10 +29,11 @@ public class Bot {
 
 	public void decideMovement() {
 		getPaths();
-		if (path.size() <= opponentPath.size()) {
+		double wallChance = rand.nextDouble();
+		if (path.size() <= opponentPath.size() || wallChance < 0.5) {
 			Point location = path.getLast();
 			Point nextMovement = path.get(path.size() - 2);
-			gameRunner.changePosition(nextMovement.getX() - location.getX(), nextMovement.getY() - location.getY());
+			gameRunner.movePlayer(nextMovement.getX() - location.getX(), nextMovement.getY() - location.getY());
 		} else {
 			int locPos = opponentPath.size()-1;
 			int nextPos = locPos - 1;

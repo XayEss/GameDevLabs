@@ -13,14 +13,14 @@ public class QuoridorMain {
 	public static void main(String[] args) {
 		PathFinder pathFinder = new PathFinder();
 		EnumMap eMap = new EnumMap(pathFinder);
-		eMap.createMap(2);
+		eMap.createMap();
 		PlayerI pl1 = new Player();
 		PlayerI pl2 = new Player();
 		pathFinder.setPlayer1(pl1);
 		pathFinder.setPlayer1(pl2);
 		GameRunner gr = new GameRunner(pl1, pl2, eMap);
-		CommandInput ci = new CommandInput(gr);
-		ci.waitForCommand();
+		gr.startGame();
+		gr.runGame();
 	}
 
 }

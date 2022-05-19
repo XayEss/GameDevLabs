@@ -44,4 +44,24 @@ public class ConsoleOutput implements GUIInterface{
 		
 	}
 
+
+	@Override
+	public void startFrame() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void printWinner(String player) {
+		System.out.println("winner: " + player);
+	}
+
+
+	@Override
+	public void clearFrame() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

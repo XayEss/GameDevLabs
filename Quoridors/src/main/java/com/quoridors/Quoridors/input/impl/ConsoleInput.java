@@ -12,23 +12,6 @@ public class ConsoleInput implements Input {
 		this.game = game;
 	}
 
-	@Override
-	public void movePlayer() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void placeHWall() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void placeVWall() {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void waitForCommand() {

@@ -126,9 +126,6 @@ public class PathFinder {
 		}
 		for (int i = 0; i < intMap.length; i++) {
 			System.out.println(Arrays.toString(intMap[i]));
-//			for (int j = 0; j < intMap[0].length; j++) {
-//
-//			}
 		}
 		System.out.println("Has found path:" + hasFoundPath);
 		printMovementTree();
@@ -144,7 +141,6 @@ public class PathFinder {
 		while(playerTree.getTree(checkPoint).getParent() != null && !path.contains(playerTree.getTree(checkPoint).getParent().getHead()) ) {
 			checkPoint = playerTree.getTree(checkPoint).getParent().getHead();
 			path.add(checkPoint);
-			//System.out.println("running");
 			System.out.println(Arrays.toString(path.toArray()));
 		}
 		decideWhichPlayer(path);

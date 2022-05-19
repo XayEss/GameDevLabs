@@ -1,32 +1,41 @@
-package com.quoridors.Quoridors.gui;
+package com.quoridors.Quoridors.gui.impl;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import com.quoridors.Quoridors.gui.GUIInterface;
+import com.quoridors.Quoridors.input.impl.ButtonInput;
+import com.quoridors.Quoridors.input.impl.KeyInput;
 import com.quoridors.Quoridors.model.impl.GameEntity;
+import com.quoridors.Quoridors.model.impl.GameRunner;
 
 import javax.swing.*;
 
 public class GUI extends JFrame implements GUIInterface {
-    JPanel panel;
-    GridLayout gridLayout = new GridLayout(17,17);
-    JLabel[][] labels = new JLabel[17][17];
-    Icon icon, icon2;
+    private JPanel panel;
+    private GridLayout gridLayout = new GridLayout(17,17);
+    private JLabel[][] labels = new JLabel[17][17];
+    private GameRunner runner;
+    private Icon icon, icon2;
 
-    public GUI() {
+    public GUI(GameRunner runner) {
         super("Quoridors");
-        setSize(1000, 1000);
+        this.runner = runner;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setBoard();
-        setVisible(true);
-
-
+        //setBoard();
+        //startFrame();
+        //setVisible(true);
     }
+    
+    
 
     @Override
     public void drawBoard(GameEntity[][] map) {
@@ -64,6 +73,7 @@ public class GUI extends JFrame implements GUIInterface {
     }
     public void setBoard()
     {
+    	setSize(1000, 1000);
         panel = new JPanel();
         panel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
         panel.setAlignmentY(JPanel.CENTER_ALIGNMENT);
@@ -76,11 +86,73 @@ public class GUI extends JFrame implements GUIInterface {
                 label.setOpaque(true);
                 label.setBackground(Color.cyan);
                 label.setVisible(true);
+                label.addMouseListener(new ButtonInput(i, j, runner));
                 panel.add(label);
                 labels[i][j] = label;
             }
         }
+        addKeyListener(new KeyInput(runner, this));
         add(panel);
+		setLocationRelativeTo(null);
         setVisible(true);
+        requestFocus();
     }
+
+	@Override
+	public void drawBoard() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void startFrame() {
+		//repaint();
+        //revalidate();
+		JButton button = new JButton("Start Game");
+		panel = new JPanel();
+		JCheckBox checkBox = new JCheckBox("Play with a bot");
+		JLabel label = new JLabel("Quoridors");
+		panel.setLayout(new FlowLayout());
+		label.setFont(new Font("Arial", Font.PLAIN, 18));
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(checkBox.isSelected()) {
+					runner.playWithABot();
+				}
+				clearFrame();
+				setBoard();
+				runner.initBoard();
+				//runner.runGame();
+			}
+		});
+		panel.add(label);
+		panel.add(checkBox);
+		panel.add(button);
+		setSize(180,200);
+		add(panel);
+		setLocationRelativeTo(null);
+		setVisible(true);
+	}
+
+
+
+	@Override
+	public void printWinner(String player) {
+		JOptionPane.showMessageDialog(this, "Player " + player + " has won");
+		
+	}
+
+
+
+	@Override
+	public void clearFrame() {
+		remove(panel);
+		repaint();
+		revalidate();
+		
+	}
 }
