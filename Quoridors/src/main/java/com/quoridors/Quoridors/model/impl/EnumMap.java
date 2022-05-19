@@ -27,86 +27,20 @@ public class EnumMap implements GameMap {
 		this.pathFinder = pathFinder;
 	}
 
-	public void createMap(int size) {
+	public void createMap() {
 		// int[][] mapI = new int[3][4];
-		// map = new GameEntity[2][3];
-		map = new GameEntity[][] {
-				{ GameEntity.Space, GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Player,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space },
-				{ GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace },
-				{ GameEntity.Space, GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space },
-				{ GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace },
-				{ GameEntity.Space, GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space },
-				{ GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace },
-				{ GameEntity.Space, GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space },
-				{ GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace },
-				{ GameEntity.Space, GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space },
-				{ GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace },
-				{ GameEntity.Space, GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space },
-				{ GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace },
-				{ GameEntity.Space, GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space },
-				{ GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace },
-				{ GameEntity.Space, GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space },
-				{ GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace, GameEntity.WallPlace,
-						GameEntity.WallPlace },
-				{ GameEntity.Space, GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Player2,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space,
-						GameEntity.WallPlace, GameEntity.Space, GameEntity.WallPlace, GameEntity.Space } };
+		map = new GameEntity[17][17];
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[0].length; j++) {
+				if (i % 2 == 0 && j % 2 == 0) {
+					map[i][j] = GameEntity.Space;
+				} else {
+					map[i][j] = GameEntity.WallPlace;
+				}
+			}
+		}
+		map[0][8] = GameEntity.Player;
+		map[16][8] = GameEntity.Player2;
 	}
 
 	public boolean placeHorizontalWall(int x, int y) {
@@ -172,6 +106,9 @@ public class EnumMap implements GameMap {
 			result = placeHorizontalWall(x, y);
 		}
 		System.out.println("Can place wall:" + result);
+		if(result) {
+			releaseMovement();
+		}
 		return result;
 	}
 
@@ -223,7 +160,8 @@ public class EnumMap implements GameMap {
 				}
 
 			}
-		}
+		} 
+		pathFinder.findPlayersPaths(cloneMap());
 		return resultCoords;
 	}
 
@@ -296,15 +234,30 @@ public class EnumMap implements GameMap {
 		return false;
 	}
 
-	
 	public boolean pathCondition() {
 		return false;
+	}
+	
+	public synchronized void waitForMovement() {
+		try {
+			wait();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public synchronized void releaseMovement() {
+		notifyAll();
 	}
 
 	@Override
 	public GameEntity findEntityBetween(GameEntity[][] map, int x, int y, int futureX, int futureY) {
 		Point cell = findCellBetween(x, y, futureX, futureY);
 		return map[cell.getX()][cell.getY()];
+	}
+
+	public PathFinder getPathFinder() {
+		return pathFinder;
 	}
 
 }

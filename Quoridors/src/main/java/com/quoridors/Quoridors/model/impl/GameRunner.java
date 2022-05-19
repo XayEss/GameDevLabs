@@ -7,6 +7,7 @@ import com.quoridors.Quoridors.gui.impl.ConsoleOutput;
 import com.quoridors.Quoridors.gui.impl.GUI;
 import com.quoridors.Quoridors.input.Input;
 import com.quoridors.Quoridors.input.impl.ConsoleInput;
+import com.quoridors.Quoridors.input.impl.KeyInput;
 import com.quoridors.Quoridors.model.GameMap;
 import com.quoridors.Quoridors.model.PlayerI;
 import com.quoridors.Quoridors.model.ai.Bot;
@@ -30,10 +31,11 @@ public class GameRunner {
 		this.map = map;
 		setPlayersPosition();
 		player = GameEntity.Player;
-		output = new GUI();
+		GUI gui = new GUI(this);
+		// gui.addKeyListener(new KeyInput(this));
+		output = gui;
 		gameInput = new ConsoleInput(this);
 		bot = new Bot(map.getPathFinder(), this);
-		output.drawBoard(map.getMap());
 	}
 
 	public GameRunner(PlayerI player1, PlayerI player2, GameMap map, boolean isAnotherPlayerABot) {
@@ -43,9 +45,10 @@ public class GameRunner {
 		this.map = map;
 		setPlayersPosition();
 		player = GameEntity.Player;
-		output = new GUI();
+		GUI gui = new GUI(this);
+		// gui.addKeyListener(new KeyInput(this));
+		output = gui;
 		bot = new Bot(map.getPathFinder(), this);
-		output.drawBoard(map.getMap());
 	}
 
 	private void setPlayersPosition() {
@@ -57,19 +60,25 @@ public class GameRunner {
 		player2.setY(point2.getY());
 	}
 
+	public void startGame() {
+		output.startFrame();
+	}
+
 	public void runGame() {
+		boolean game = true;
 		do {
-			if(!isAnotherPlayerABot || !botMove) {
-				gameInput.waitForCommand();
+			if (!isAnotherPlayerABot || !botMove) {
+				// gameInput.waitForCommand();
+				map.waitForMovement();
 			} else {
-				//moveBot();
+				// moveBot();
 				bot.decideMovement();
 			}
-			//gameFinished();
-		} while(!winner);
-		printWinner();
+			// gameFinished();
+		} while (game);
+		// printWinner();
 	}
-	
+
 	public void moveBot() {
 		Point next = bot.decideNextPoint();
 		System.out.print(next);
@@ -80,25 +89,33 @@ public class GameRunner {
 		bot.decideMovement();
 	}
 
+	public void movePlayer(int diffx, int diffy) {
+		PlayerI movingPlayer = player == GameEntity.Player ? player1 : player2;
+		changePosition(movingPlayer.getX() + diffx, movingPlayer.getY() + diffy);
+	}
+
 	public void changePosition(int x, int y) {
 		PlayerI movingPlayer = player == GameEntity.Player ? player1 : player2;
-		Point position = map.movePlayer(player, movingPlayer.getX(), movingPlayer.getY(), movingPlayer.getX() + x,
-				movingPlayer.getY() + y);
+		Point position = null;
+		if (!winner) {
+			position = map.movePlayer(player, movingPlayer.getX(), movingPlayer.getY(), x, y);
+		}
 		if (position != null) {
 			changePlayerPosition(position.getX(), position.getY());
 			gameFinished();
 			changePlayer();
+			map.releaseMovement();
 			System.out.println(position);
 		}
 		output.drawBoard(map.getMap());
 	}
 
 	public boolean placeWall(int x, int y) {
-		if (map.placeWall(x, y)) {
+		if (!winner && map.placeWall(x, y)) {
 			changePlayer();
 			output.drawBoard(map.getMap());
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
@@ -109,14 +126,14 @@ public class GameRunner {
 		} else {
 			player = GameEntity.Player;
 		}
-		if(isAnotherPlayerABot) {
+		if (isAnotherPlayerABot) {
 			reverseBotMove();
 		}
 	}
 
 	private GameEntity checkWinner(GameEntity player) {
 		GameEntity winner = null;
-		System.out.println("Starttingwinnercheck" + player);
+		System.out.println("StarttingWinnercheck" + player);
 		System.out.println("player1x: " + player1.getX());
 		System.out.println("player2x: " + player2.getX());
 		if (player == GameEntity.Player && player1.getX() == map.getMap().length - 1) {
@@ -134,7 +151,7 @@ public class GameRunner {
 	public boolean gameFinished() {
 		GameEntity winnerPlayer = checkWinner(player);
 		winner = winnerPlayer != null ? true : false;
-		if(winner) {
+		if (winner) {
 			printWinner();
 		}
 		return winner;
@@ -145,10 +162,28 @@ public class GameRunner {
 		movingPlayer.setX(x);
 		movingPlayer.setY(y);
 	}
-	
-	private void printWinner() {
-		System.out.println("winner: " + (player == GameEntity.Player ? "Player 2" : "Player 1"));
 
+	public void resetGame() {
+		System.out.println("R Key pressed");
+		map.createMap();
+		setPlayersPosition();
+		output.drawBoard(map.getMap());
+		if (winner) {
+			winner = false;
+		}
+	}
+
+	public void initBoard() {
+		output.drawBoard(map.getMap());
+	}
+
+	private void printWinner() {
+		output.printWinner(player == GameEntity.Player ? "Player 2" : "Player 1");
+
+	}
+
+	public void playWithABot() {
+		isAnotherPlayerABot = true;
 	}
 
 	public boolean isWinner() {
