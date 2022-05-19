@@ -45,6 +45,9 @@ public class GameRunner {
 		setPlayersPosition();
 		player = GameEntity.Player;
 		GUI gui = new GUI(this);
+<<<<<<< HEAD
+=======
+>>>>>>> f0be50c5f7a74dbcc87f2afe0b8a88f43d0b2ab5
 		output = gui;
 		bot = new Bot(map.getPathFinder(), this);
 	}
