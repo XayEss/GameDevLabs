@@ -29,31 +29,41 @@ public class Bot {
 
 	public void decideMovement() {
 		getPaths();
+		System.out.println("Trying to make movement");
 		double wallChance = rand.nextDouble();
-		if (path.size() <= opponentPath.size() || wallChance < 0.5) {
+		int step = 2;
+		if ((path.size() <= opponentPath.size() || wallChance < 0.4) && !path.isEmpty()) {
 			Point location = path.getLast();
-			Point nextMovement = path.get(path.size() - 2);
-			gameRunner.movePlayer(nextMovement.getX() - location.getX(), nextMovement.getY() - location.getY());
+			Point nextMovement = path.get(path.size() - step);
+			while (!gameRunner.movePlayer(nextMovement.getX() - location.getX(),
+					nextMovement.getY() - location.getY())) {
+				step += 2;
+				nextMovement = path.get(path.size() - step);
+			}
 		} else {
-			int locPos = opponentPath.size()-1;
-			int nextPos = locPos - 1;
-			Point location = opponentPath.get(locPos);
-			Point next = opponentPath.get(nextPos);
-			Point wallCoords = new Point((next.getX() + location.getX()) / 2, (next.getY() + location.getY()) / 2);
-			while (!gameRunner.placeWall(wallCoords.getX(), wallCoords.getY())) {
-				locPos = locPos - 1;
-				nextPos = locPos - 1;
-				location = opponentPath.get(locPos);
-				next = opponentPath.get(nextPos);
-				wallCoords = new Point((next.getX() + location.getX()) / 2, (next.getY() + location.getY()) / 2);
-				if (wallCoords.getX() % 2 == 0) {
-				} else if (wallCoords.getY() % 2 == 0 && wallCoords.getY() >= 2) {
-					wallCoords.decrementY();
-					wallCoords.decrementY();
+			try {
+				int locPos = opponentPath.size() - 1;
+				int nextPos = locPos - 1;
+				Point location = opponentPath.get(locPos);
+				Point next = opponentPath.get(nextPos);
+				Point wallCoords = new Point((next.getX() + location.getX()) / 2, (next.getY() + location.getY()) / 2);
+				while (!gameRunner.placeWall(wallCoords.getX(), wallCoords.getY())) {
+					locPos = locPos - 1;
+					nextPos = locPos - 1;
+					location = opponentPath.get(locPos);
+					next = opponentPath.get(nextPos);
+					wallCoords = new Point((next.getX() + location.getX()) / 2, (next.getY() + location.getY()) / 2);
+					if (wallCoords.getX() % 2 == 0) {
+					} else if (wallCoords.getY() % 2 == 0 && wallCoords.getY() >= 2) {
+						wallCoords.decrementY();
+						wallCoords.decrementY();
+					}
 				}
-			} 
-			
+			} catch (IndexOutOfBoundsException e) {
+				e.printStackTrace();
+			}
 		}
+
 	}
 
 	public Point decideNextPoint() {

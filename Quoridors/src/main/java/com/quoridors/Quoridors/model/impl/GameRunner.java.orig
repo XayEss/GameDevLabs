@@ -32,6 +32,9 @@ public class GameRunner {
 		setPlayersPosition();
 		player = GameEntity.Player;
 		GUI gui = new GUI(this);
+<<<<<<< HEAD
+=======
+>>>>>>> f0be50c5f7a74dbcc87f2afe0b8a88f43d0b2ab5
 		output = gui;
 		gameInput = new ConsoleInput(this);
 		bot = new Bot(map.getPathFinder(), this);
@@ -45,6 +48,9 @@ public class GameRunner {
 		setPlayersPosition();
 		player = GameEntity.Player;
 		GUI gui = new GUI(this);
+<<<<<<< HEAD
+=======
+>>>>>>> f0be50c5f7a74dbcc87f2afe0b8a88f43d0b2ab5
 		output = gui;
 		bot = new Bot(map.getPathFinder(), this);
 	}
@@ -68,9 +74,8 @@ public class GameRunner {
 			if (!isAnotherPlayerABot || !botMove) {
 				// gameInput.waitForCommand();
 				map.waitForMovement();
-			} else if(!winner){
+			} else {
 				// moveBot();
-				//if(!winner)
 				bot.decideMovement();
 			}
 			// gameFinished();
@@ -88,15 +93,14 @@ public class GameRunner {
 		bot.decideMovement();
 	}
 
-	public boolean movePlayer(int diffx, int diffy) {
+	public void movePlayer(int diffx, int diffy) {
 		PlayerI movingPlayer = player == GameEntity.Player ? player1 : player2;
-		 return changePosition(movingPlayer.getX() + diffx, movingPlayer.getY() + diffy);
+		changePosition(movingPlayer.getX() + diffx, movingPlayer.getY() + diffy);
 	}
 
-	public boolean changePosition(int x, int y) {
+	public void changePosition(int x, int y) {
 		PlayerI movingPlayer = player == GameEntity.Player ? player1 : player2;
 		Point position = null;
-		boolean result = false;
 		if (!winner) {
 			position = map.movePlayer(player, movingPlayer.getX(), movingPlayer.getY(), x, y);
 		}
@@ -105,11 +109,9 @@ public class GameRunner {
 			gameFinished();
 			changePlayer();
 			map.releaseMovement();
-			result = true;
 			System.out.println(position);
 		}
 		output.drawBoard(map.getMap());
-		return result;
 	}
 
 	public boolean placeWall(int x, int y) {
@@ -166,10 +168,9 @@ public class GameRunner {
 	}
 
 	public void resetGame() {
+		System.out.println("R Key pressed");
 		map.createMap();
 		setPlayersPosition();
-		player = GameEntity.Player;
-		botMove = false;
 		output.drawBoard(map.getMap());
 		if (winner) {
 			winner = false;
@@ -181,7 +182,7 @@ public class GameRunner {
 	}
 
 	private void printWinner() {
-		output.printWinner(player == GameEntity.Player ? "Player 1" : "Player 2");
+		output.printWinner(player == GameEntity.Player ? "Player 2" : "Player 1");
 
 	}
 

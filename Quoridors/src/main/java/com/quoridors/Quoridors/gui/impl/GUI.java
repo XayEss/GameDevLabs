@@ -30,9 +30,6 @@ public class GUI extends JFrame implements GUIInterface {
         super("Quoridors");
         this.runner = runner;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //setBoard();
-        //startFrame();
-        //setVisible(true);
     }
     
     
@@ -108,14 +105,14 @@ public class GUI extends JFrame implements GUIInterface {
 
 	@Override
 	public void startFrame() {
-		//repaint();
-        //revalidate();
+
 		JButton button = new JButton("Start Game");
 		panel = new JPanel();
 		JCheckBox checkBox = new JCheckBox("Play with a bot");
 		JLabel label = new JLabel("Quoridors");
 		panel.setLayout(new FlowLayout());
 		label.setFont(new Font("Arial", Font.PLAIN, 18));
+		JLabel label2 = new JLabel("<html>Esc - return to menu <br/> r - restart game</html>");
 		button.addActionListener(new ActionListener() {
 			
 			@Override
@@ -126,12 +123,12 @@ public class GUI extends JFrame implements GUIInterface {
 				clearFrame();
 				setBoard();
 				runner.initBoard();
-				//runner.runGame();
 			}
 		});
 		panel.add(label);
 		panel.add(checkBox);
 		panel.add(button);
+		panel.add(label2);
 		setSize(180,200);
 		add(panel);
 		setLocationRelativeTo(null);

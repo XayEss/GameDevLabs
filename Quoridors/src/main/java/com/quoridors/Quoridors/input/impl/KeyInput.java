@@ -2,6 +2,7 @@ package com.quoridors.Quoridors.input.impl;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Base64;
 
 import com.quoridors.Quoridors.gui.impl.GUI;
 import com.quoridors.Quoridors.model.impl.GameRunner;
