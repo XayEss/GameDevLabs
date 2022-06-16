@@ -1,11 +1,14 @@
 package com.quoridors.Quoridors.model.impl;
 
 import java.util.Objects;
+import java.util.Scanner;
 
 import com.quoridors.Quoridors.gui.GUIInterface;
 import com.quoridors.Quoridors.gui.impl.ConsoleOutput;
 import com.quoridors.Quoridors.gui.impl.GUI;
 import com.quoridors.Quoridors.input.Input;
+import com.quoridors.Quoridors.input.impl.BotTestCommandInput;
+import com.quoridors.Quoridors.input.impl.CommandInput;
 import com.quoridors.Quoridors.input.impl.ConsoleInput;
 import com.quoridors.Quoridors.input.impl.KeyInput;
 import com.quoridors.Quoridors.model.GameMap;
@@ -22,31 +25,36 @@ public class GameRunner {
 	private Bot bot;
 	private boolean winner;
 	private boolean isAnotherPlayerABot = false;
-	private boolean botMove = false;
+	private boolean botMove = true;
+	private boolean botFirst = false;
+	private Scanner scanner;
 
-	public GameRunner(PlayerI player1, PlayerI player2, GameMap map) {
+	public GameRunner(PlayerI player1, PlayerI player2, GameMap map, GUIInterface output) {
 		super();
-		this.player1 = new Player();
-		this.player2 = new Player();
+		this.player1 = player1;
+		this.player2 = player2;
 		this.map = map;
 		setPlayersPosition();
 		player = GameEntity.Player;
-		GUI gui = new GUI(this);
-		output = gui;
-		gameInput = new ConsoleInput(this);
-		bot = new Bot(map.getPathFinder(), this);
+		this.output = output;
+		// GUI gui = new GUI(this);
+		// this.output = gui;
+//		gameInput = new ConsoleInput(this);
+		scanner = new Scanner(System.in);
+		gameInput = new BotTestCommandInput(this, scanner);
+		initGame();
 	}
 
 	public GameRunner(PlayerI player1, PlayerI player2, GameMap map, boolean isAnotherPlayerABot) {
 		super();
-		this.player1 = new Player();
-		this.player2 = new Player();
+		this.player1 = player1;
+		this.player2 = player2;
 		this.map = map;
 		setPlayersPosition();
 		player = GameEntity.Player;
 		GUI gui = new GUI(this);
 		output = gui;
-		bot = new Bot(map.getPathFinder(), this);
+		initGame();
 	}
 
 	private void setPlayersPosition() {
@@ -62,25 +70,48 @@ public class GameRunner {
 		output.startFrame();
 	}
 
+	public void initGame() {
+		String playerPosition = scanner.nextLine();
+		if (playerPosition.equals("white")) {
+			setBotFirst();
+		} else if (playerPosition.equals("black")) {
+			botMove = false;
+		}
+		bot = new Bot(map.getPathFinder(), this, botMove);
+	}
+
 	public void runGame() {
 		boolean game = true;
+
 		do {
-			if (!isAnotherPlayerABot || !botMove) {
-				// gameInput.waitForCommand();
-				map.waitForMovement();
-			} else if(!winner){
-				// moveBot();
-				//if(!winner)
-				bot.decideMovement();
+//			if (!isAnotherPlayerABot || !botMove) {
+//				gameInput.waitForCommand();
+//				// map.waitForMovement();
+//			} else if (!winner) {
+//				// moveBot();
+//				// if(!winner)
+//				bot.decideMovement();
+//			}
+			if (botMove) {
+				askForMovement(bot, gameInput);
+			} else {
+				askForMovement(gameInput, bot);
 			}
 			// gameFinished();
-		} while (game);
+		} while (!winner);
 		// printWinner();
+	}
+
+	public void askForMovement(Input player1, Input player2) {
+		player1.waitForCommand();
+		if (winner)
+			return;
+		player2.waitForCommand();
 	}
 
 	public void moveBot() {
 		Point next = bot.decideNextPoint();
-		System.out.print(next);
+		// System.out.print(next);
 		changePosition(next.getX(), next.getY());
 	}
 
@@ -90,7 +121,7 @@ public class GameRunner {
 
 	public boolean movePlayer(int diffx, int diffy) {
 		PlayerI movingPlayer = player == GameEntity.Player ? player1 : player2;
-		 return changePosition(movingPlayer.getX() + diffx, movingPlayer.getY() + diffy);
+		return changePosition(movingPlayer.getX() + diffx, movingPlayer.getY() + diffy);
 	}
 
 	public boolean changePosition(int x, int y) {
@@ -106,10 +137,25 @@ public class GameRunner {
 			changePlayer();
 			map.releaseMovement();
 			result = true;
-			System.out.println(position);
+			// System.out.println(position);
+			output.drawBoard(map.getMap());
 		}
-		output.drawBoard(map.getMap());
 		return result;
+	}
+
+	public boolean jumpPosition(int x, int y) {
+		PlayerI targetPlayer = player == GameEntity.Player ? player2 : player1;
+		PlayerI currPlay = player == GameEntity.Player ? player1 : player2;
+		//System.out.println(targetPlayer.getX() + " " + targetPlayer.getY());
+		//System.out.println(currPlay.getX()  + " " + currPlay.getY());
+		Point vector = new Point(targetPlayer.getX() - currPlay.getX(), targetPlayer.getY() - currPlay.getY());
+		//System.out.println(vector);
+		//System.out.println(targetPlayer.getX() + vector.getX() + " " + targetPlayer.getY() + vector.getY());
+		if (x == targetPlayer.getX() + vector.getX() && y == targetPlayer.getY() + vector.getY()) {
+			return changePosition(targetPlayer.getX(), targetPlayer.getY());
+		}
+		return changePosition(x, y);
+
 	}
 
 	public boolean placeWall(int x, int y) {
@@ -135,12 +181,12 @@ public class GameRunner {
 
 	private GameEntity checkWinner(GameEntity player) {
 		GameEntity winner = null;
-		System.out.println("StarttingWinnercheck" + player);
-		System.out.println("player1x: " + player1.getX());
-		System.out.println("player2x: " + player2.getX());
-		if (player == GameEntity.Player && player1.getX() == map.getMap().length - 1) {
+//		System.out.println("StarttingWinnercheck" + player);
+//		System.out.println("player1x: " + player1.getX());
+//		System.out.println("player2x: " + player2.getX());
+		if (player == GameEntity.Player && player1.getX() == 0) {
 			winner = GameEntity.Player;
-		} else if (player == GameEntity.Player2 && player2.getX() == 0) {
+		} else if (player == GameEntity.Player2 && player2.getX() == map.getMap().length - 1) {
 			winner = GameEntity.Player2;
 		}
 		return winner;
@@ -154,7 +200,7 @@ public class GameRunner {
 		GameEntity winnerPlayer = checkWinner(player);
 		winner = winnerPlayer != null ? true : false;
 		if (winner) {
-			printWinner();
+			// printWinner();
 		}
 		return winner;
 	}
@@ -174,6 +220,10 @@ public class GameRunner {
 		if (winner) {
 			winner = false;
 		}
+	}
+
+	public void setBotFirst() {
+		botMove = true;
 	}
 
 	public void initBoard() {

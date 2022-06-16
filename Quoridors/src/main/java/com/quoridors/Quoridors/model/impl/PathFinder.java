@@ -34,9 +34,9 @@ public class PathFinder {
 			}
 		}
 		currentPlayer = GameEntity.Player;
-		boolean p1Result = pathAlgorythm(getPlayerPosition(GameEntity.Player), map, intMap1, intMap1.length - 1);
+		boolean p1Result = pathAlgorythm(getPlayerPosition(GameEntity.Player), getPlayerPosition(GameEntity.Player2), map, intMap1, 0);
 		currentPlayer = GameEntity.Player2;
-		boolean p2Result = pathAlgorythm(getPlayerPosition(GameEntity.Player2), map, intMap2, 0);
+		boolean p2Result = pathAlgorythm(getPlayerPosition(GameEntity.Player2), getPlayerPosition(GameEntity.Player), map, intMap2, intMap1.length - 1);
 		return p1Result && p2Result;
 
 	}
@@ -56,18 +56,19 @@ public class PathFinder {
 			}
 		}
 		currentPlayer = GameEntity.Player;
-		boolean p1Result = pathAlgorythm(getPlayerPosition(GameEntity.Player), map, intMap1, intMap1.length - 1);
+		boolean p1Result = pathAlgorythm(getPlayerPosition(GameEntity.Player),getPlayerPosition(GameEntity.Player2), map, intMap1, 0);
 		currentPlayer = GameEntity.Player2;
-		boolean p2Result = pathAlgorythm(getPlayerPosition(GameEntity.Player2), map, intMap2, 0);
+		boolean p2Result = pathAlgorythm(getPlayerPosition(GameEntity.Player2),getPlayerPosition(GameEntity.Player), map, intMap2, intMap1.length - 1);
 		//return p1Result && p2Result;
 	}
 	
 	
 
-	public boolean pathAlgorythm(Point player, GameEntity[][] map, int[][] intMap, int finalDestination) {
+	public boolean pathAlgorythm(Point player, Point player2, GameEntity[][] map, int[][] intMap, int finalDestination) {
 		Point pos = player;
+		Point anotherPlayer = player2;
 		Tree<Point> currentTree = currentPlayer == GameEntity.Player ? player1Tree : player2Tree;
-		System.out.println(player.getX() + " " + player.getY());
+		//System.out.println(player.getX() + " " + player.getY());
 		intMap[pos.getX()][pos.getY()] = 1;
 		boolean hasFoundPath = false;
 		boolean checkedAllPossiblePaths = false;
@@ -125,9 +126,9 @@ public class PathFinder {
 
 		}
 		for (int i = 0; i < intMap.length; i++) {
-			System.out.println(Arrays.toString(intMap[i]));
+			//System.out.println(Arrays.toString(intMap[i]));
 		}
-		System.out.println("Has found path:" + hasFoundPath);
+		//System.out.println("Has found path:" + hasFoundPath);
 		printMovementTree();
 		return hasFoundPath;
 
@@ -137,14 +138,14 @@ public class PathFinder {
 		LinkedList<Point> path = new LinkedList<>();
 		path.add(finalPoint);
 		Point checkPoint = finalPoint;
-		System.out.println("lol:" + finalPoint.toString());
+		//System.out.println("lol:" + finalPoint.toString());
 		while(playerTree.getTree(checkPoint).getParent() != null && !path.contains(playerTree.getTree(checkPoint).getParent().getHead()) ) {
 			checkPoint = playerTree.getTree(checkPoint).getParent().getHead();
 			path.add(checkPoint);
-			System.out.println(Arrays.toString(path.toArray()));
+			//System.out.println(Arrays.toString(path.toArray()));
 		}
 		decideWhichPlayer(path);
-		System.out.println(Arrays.toString(path.toArray()));
+		//System.out.println(Arrays.toString(path.toArray()));
 		
 	}
 	
@@ -173,7 +174,7 @@ public class PathFinder {
 	}
 	
 	public void printMovementTree() {
-		System.out.println(player1Tree.toString());
+		//System.out.println(player1Tree.toString());
 	}
 
 	public PlayerI getPlayer1() {
@@ -195,7 +196,7 @@ public class PathFinder {
 	public LinkedList<Point> getPlayer2Path() {
 		LinkedList<Point> path = null;
 		if(player2Path == null) {
-			System.out.print("path 2 ");
+			//System.out.print("path 2 ");
 		}else {
 			path = player2Path;
 		}
@@ -205,7 +206,7 @@ public class PathFinder {
 	public LinkedList<Point> getPlayer1Path() {
 		LinkedList<Point> path = null;
 		if(player1Path == null) {
-			System.out.print("path 1 ");
+			//System.out.print("path 1 ");
 
 		}else {
 			path = player1Path;

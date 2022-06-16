@@ -26,6 +26,8 @@ public class EnumMap implements GameMap {
 
 	public EnumMap(PathFinder pathFinder) {
 		this.pathFinder = pathFinder;
+		createMap();
+		playerPaths();
 	}
 
 	public void createMap() {
@@ -39,9 +41,10 @@ public class EnumMap implements GameMap {
 				}
 			}
 		}
-		map[0][8] = GameEntity.Player;
-		map[16][8] = GameEntity.Player2;
+		map[16][8] = GameEntity.Player;
+		map[0][8] = GameEntity.Player2;
 	}
+	
 
 	public boolean placeHorizontalWall(int x, int y) {
 		GameEntity[][] testMap = cloneMap();
@@ -100,7 +103,7 @@ public class EnumMap implements GameMap {
 		} else {
 			result = placeHorizontalWall(x, y);
 		}
-		System.out.println("Can place wall:" + result);
+		//System.out.println("Can place wall:" + result);
 		if (result) {
 			releaseMovement();
 		}
@@ -156,8 +159,12 @@ public class EnumMap implements GameMap {
 
 			}
 		}
-		pathFinder.findPlayersPaths(cloneMap());
+		playerPaths();
 		return resultCoords;
+	}
+	
+	public void playerPaths() {
+		pathFinder.findPlayersPaths(cloneMap());
 	}
 
 	public boolean isAnotherPlayerOnPlace(GameEntity play, int x, int y, int futureX, int futureY) {
