@@ -50,7 +50,6 @@ public class ButtonInput implements Input, MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 

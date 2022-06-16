@@ -27,28 +27,28 @@ public class ConsoleInput implements Input {
 		}
 		switch (input) {
 		case "up":
-			game.changePosition(-2, 0);
+			game.movePlayer(-2, 0);
 			break;
 		case "down":
-			game.changePosition(+2, 0);
+			game.movePlayer(+2, 0);
 			break;
 		case "right":
-			game.changePosition(0, +2);
+			game.movePlayer(0, +2);
 			break;
 		case "left":
-			game.changePosition(0, -2);
+			game.movePlayer(0, -2);
 			break;
 		case "diagRU":
-			game.changePosition(-2, 2);
+			game.movePlayer(-2, 2);
 			break;
 		case "diagLU":
-			game.changePosition(-2, -2);
+			game.movePlayer(-2, -2);
 			break;
 		case "diagRD":
-			game.changePosition(2, 2);
+			game.movePlayer(2, 2);
 			break;
 		case "diagLD":
-			game.changePosition(2, -2);
+			game.movePlayer(2, -2);
 			break;
 		case "wall":
 			if (command.length > 1) {

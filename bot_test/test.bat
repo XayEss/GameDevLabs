@@ -1,0 +1,1 @@
+@javaw -jar Quoridors-1.0.0-Release.jar

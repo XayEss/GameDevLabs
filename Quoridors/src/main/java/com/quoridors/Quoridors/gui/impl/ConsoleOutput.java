@@ -33,7 +33,9 @@ public class ConsoleOutput implements GUIInterface{
 				System.out.print(output);
 			}
 			System.out.println();
+
 		}
+		System.out.println();
 		
 	}
 
